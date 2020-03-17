@@ -1,7 +1,640 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <link href="assets/fontawesome/css/all.min.css" rel="stylesheet">
+  <style media="screen">
+    @import"assets/index.css";
+  </style>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function() {
+        if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+          if (target.length) {
+            $('html, body').animate({
+              scrollTop: (target.offset().top - 66)
+            }, 500, "easeInOutExpo");
+            return false;
+          }
+        }
+      });
+      // Closes responsive menu when a scroll trigger link is clicked
+      $('.js-scroll-trigger').click(function() {
+        $('.navbar-collapse').collapse('hide');
+      });
+      // Activate scrollspy to add active class to navbar items on scroll
+      $('body').scrollspy({
+        target: '#mainNav',
+        offset: 75
+      });
+      // Collapse Navbar
+      var navbarCollapse = function() {
+        if ($("#mainNav").offset().top > 100) {
+          $("#mainNav").addClass("navbar-scrolled");
+        } else {
+          $("#mainNav").removeClass("navbar-scrolled");
+        }
+      };
+      // Collapse now if page is not at top
+      navbarCollapse();
+      // Collapse the navbar when page is scrolled
+      $(window).scroll(navbarCollapse);
+      $("#portrait").addClass("load");
+
+      $("#portraitFront").click(function() {
+        $("#portraitFront").css("transform", "rotateY(180deg)");
+        $("#portraitBack").css("transform", "rotateY(360deg)");
+        $("#portraitFront").hover(function() {
+          $("#portraitFront").css("transform", "rotateY(225deg)");
+        }, function() {
+          $("#portraitFront").css("transform", "rotateY(180deg)");
+        });
+        $("#portraitBack").hover(function() {
+          $("#portraitBack").css("transform", "rotateY(405deg)");
+        }, function() {
+          $("#portraitBack").css("transform", "rotateY(360deg)");
+        });
+      });
+      $("#portraitBack").click(function() {
+        $("#portraitFront").css("transform", "rotateY(0deg)");
+        $("#portraitBack").css("transform", "rotateY(180deg)");
+        $("#portraitFront").hover(function() {
+          $("#portraitFront").css("transform", "rotateY(45deg)");
+        }, function() {
+          $("#portraitFront").css("transform", "rotateY(0deg)");
+        });
+        $("#portraitBack").hover(function() {
+          $("#portraitBack").css("transform", "rotateY(225deg)");
+        }, function() {
+          $("#portraitBack").css("transform", "rotateY(180deg)");
+        });
+      });
+
+      $(".js-scroll-trigger").hover(function() {
+        $("#logo").css("left", "0px");
+      }, function() {
+        $("#logo").css("left", "-10px");
+      });
+      $(".form-control").focus(function() {
+        $(this).prev().addClass("prefix");
+        $(this).next().addClass("suffix");
+      });
+      $(".form-control").blur(function() {
+        $(this).prev().removeClass("prefix");
+        if ($(this).val() == "") {
+          $(this).next().removeClass("suffix");
+        }
+      });
+      $('input[type=radio][name=r]').change(function() {
+        if (this.value == 'r1') {
+          $('#s1').css("margin-top", "0px");
+        } else if (this.value == 'r2') {
+          $('#s1').css("margin-top", "-800px");
+        } else if (this.value == 'r3') {
+          $('#s1').css("margin-top", "-1600px");
+        } else if (this.value == 'r4') {
+          $('#s1').css("margin-top", "-2400px");
+        } else if (this.value == 'r5') {
+          $('#s1').css("margin-top", "-3200px");
+        }
+      });
+    });
+  </script>
+
+  <title></title>
+</head>
+
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+  <nav class="navbar navbar-expand-lg bg-primary-a navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <div class="wrapper">
+        <a class="navbar-brand js-scroll-trigger" href="#"><img src="imgs/hi.png" class="float-right" alt="logo" width="50" height="50" id="logo"></a>
+      </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto my-2 my-lg-0">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#project">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#cv">CV</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#">Link</a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <header class="masthead bg-light text-white text-center" id="about">
+    <div class="container">
+      <div class="flip container">
+        <div class="front" id="portraitFront"><img class="img-fluid d-block mx-auto mb-5 rounded-circle" src="imgs/logo.jpg" width="400px" height="400px" id="portrait"></div>
+        <div class="back container" id="portraitBack"><img class="img-fluid d-block mx-auto mb-5 rounded-circle" src="imgs/portrait2.jpg" width="400px" height="400px"></div>
+      </div>
+      <h1 class="text-uppercase">Zheng Xu</h1>
+      <hr class="divider  my-4">
+      <ul class="list-inline">
+        <li class="list-inline-item">
+          <h2 class="font-weight-normal">&lt;Web Developer&gt;</h2>
+        </li>
+        <li class="list-inline-item">
+          <h2 class="font-weight-normal">&lt;Programmer&gt;</h2>
+        </li>
+        <li class="list-inline-item">
+          <h2 class="font-weight-normal">&lt;Graphic Artist&gt;</h2>
+        </li>
+      </ul>
+      <button type="button" class="btn-2" data-toggle="modal" data-target="#myModal">
+        <h2 class="font-weight-normal">Hire me!</h2>
+      </button>
+    </div>
+  </header>
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="container">
+          <div class="modal-header">
+            <h4 class="modal-title">Hire me!</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form
+              action="&#0000104;&#x074;&#0000116;&#112;&#x0073;&#x3a;&#047;&#047;&#102;&#0111;&#000114;&#109;&#0115;&#0112;&#00000114;&#00000101;&#x00065;&#0000046;&#x0000069;&#00000111;&#x2f;&#00097;&#00110;&#0100;&#00101;&#x0072;&#000115;&#00000111;&#x000006e;&#0000120;&#0000117;&#x00038;&#00056;&#00064;&#00103;&#00000109;&#00097;&#105;&#00108;&#0046;&#0000099;&#00000111;&#0109;"
+              method="POST" />
+            <div class="input-group mb-3 input-group-sm">
+              <i class="fas fa-user fa-2x"></i>
+              <input type="text" class="form-control" name="name" id="hire-name">
+              <label for="hire-name">Your name</label>
+            </div>
+            <div class="input-group mb-3 input-group-sm">
+              <i class="fas fa-envelope fa-2x"></i>
+              <input type="email" class="form-control" name="_replyto" id="hire-email" />
+              <label for="hire-email">Your email</label>
+            </div>
+            <div class="input-group mb-3 input-group-sm">
+              <i class="fas fa-tag fa-2x"></i>
+              <input type="text" class="form-control" name="_subject" id="hire-subject" />
+              <label for="hire-subject">Subject</label>
+            </div>
+            <div class="input-group mb-3 input-group-sm">
+              <i class="fas fa-pencil-alt fa-2x" size="9"></i>
+              <textarea name="message" class="form-control" id="hire-message" rows="10"></textarea>
+              <label for="hire-message">Message</label>
+            </div>
+          </div>
+          <input type="text" class="form-control" name="_gotcha" style="display:none" />
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-warning">Send</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="page-section bg-primary " id="project">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center text-white">
+          <h1 class="section-heading text-uppercase ">Project</h1>
+          <hr class="divider-light my-4">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-sm-6 project-item">
+          <a class="project-link" data-toggle="modal" href="#projectModal1">
+            <div class="project-hover">
+              <div class="project-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="imgs/p1-thumbnail.jpg" alt="">
+          </a>
+          <div class="project-caption">
+            <h4>Development of a Network Security Analytic System</h4>
+            <p class="text-muted">Big data mining program using Java. Based on Hadoop platform. Used C4.5 and XGB decision tree
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 project-item">
+          <a class="project-link" data-toggle="modal" href="#projectModal2">
+            <div class="project-hover">
+              <div class="project-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="imgs/p2-1-thumbnail.jpg" alt="">
+          </a>
+          <div class="project-caption">
+            <h4>Rescuer robot</h4>
+            <p class="text-muted">A rescue robot equipped with Lego Mindstorm EV3 kit, with the functions of direction detecting and navigation, using color and distance sensors</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 project-item">
+          <a class="project-link" href="test.html" target="_blank">
+            <div class="project-hover">
+              <div class="project-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="imgs/p3-thumbnail.jpg" alt="">
+          </a>
+          <div class="project-caption">
+            <h4>Random team generator</h4>
+            <p class="text-muted">Mix up team members based on different criteria and user preference to provide a diverse result. Web page based project that allows for great UX
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 project-item">
+          <a class="project-link" href="sudoku.html" target="_blank">
+            <div class="project-hover">
+              <div class="project-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="imgs/p4-thumbnail.jpg" alt="">
+          </a>
+          <div class="project-caption">
+            <h4>Sudoku solver</h4>
+            <p class="text-muted">Solver any given sudoku puzzle</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 project-item">
+          <a class="project-link" href="recaman.html" target="_blank">
+            <div class="project-hover">
+              <div class="project-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="imgs/p5-thumbnail.png" alt="">
+          </a>
+          <div class="project-caption">
+            <h4>Recamán's sequence</h4>
+            <p class="text-muted">Recamán's sequence is a sequence of nonnegative integers separated by steps that can be described as “subtract if possible, otherwise add”</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 project-item">
+            <a class="project-link" href="tetris.html" target="_blank">
+              <div class="project-hover">
+                <div class="project-hover-content">
+                  <i class="fas fa-plus fa-3x"></i>
+                </div>
+              </div>
+              <img class="img-fluid" src="imgs/p6-thumbnail.png" alt="">
+            </a>
+            <div class="project-caption">
+              <h4>Tetris</h4>
+              <p class="text-muted"></p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+  <section class="page-section bg-light" id="cv">
+    <!-- <div class="container">
+      <div class="row ">
+        <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+          <input type="radio" name="r" id="r1" checked>
+          <input type="radio" name="r" id="r2" >
+          <div class="navigation">
+            <label for="r1" class="bar">chishi</label>
+            <label for="r2" class="bar">chishi</label>
+          </div>
+        </div>
+        <div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+          <div class="slidershow middle">
+            <div class="slides">
+              <div class="slide s1">
+                <img class="img-fluid" src="imgs/p3-thumbnail.jpg" alt="">
+              </div>
+              <div class="slide s2">
+                <img class="img-fluid" src="imgs/p2-thumbnail.jpg" alt="">
+              </div>    
+            </div>
+            
+          </div>
+        </div>
+      </div>    
+    </div> -->
+    <div class="container">
+      <div class="row ">
+        <div class="col-3 col-sm-3 col-md-2 col-lg-2 col-xl-2">
+          <div class="navigation text-center">
+            <img class="img-fluid d-block mx-auto mb-5 rounded-circle" src="imgs/portrait2.jpg" width="400px" height="400px">
+            <ul class="list-inline text-left">
+              <li><input type="radio" name="r" id="r1" value="r1" checked><label for="r1" class="bar">About</label></li>
+              <li><input type="radio" name="r" id="r2" value="r2"><label for="r2" class="bar">Experience</label></li>
+              <li><input type="radio" name="r" id="r3" value="r3"><label for="r3" class="bar">Education</label></li>
+              <li><input type="radio" name="r" id="r4" value="r4"><label for="r4" class="bar">Skills</label></li>
+              <li><input type="radio" name="r" id="r5" value="r5"><label for="r5" class="bar">Awards & Achievements</label></li>
+              <li><input type="radio" name="r" id="r5" value="r5"><label for="r5" class="bar"><a style="color:#444" href="https://docs.google.com/document/d/1lZLYGMXtVBIZKk_NfmS1yEXXWWHgmie0UuLWbVg-OeE/edit?usp=sharing" target="_blank">Download resume</a></label></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-9 col-sm-9 col-md-10 col-lg-10 col-xl-10">
+          <div class="slidershow">
+            <div class="slides">
+              <div class="slide p-3 p-lg-5 d-flex align-items-center" id="s1">
+                <section class="resume-section">
+                  <div class="w-100">
+                    <h1 class="mb-0">Zheng Xu</h1>
+                    <hr class="divider dv-left">
+                    <p class="lead mb-5">I am an intuitive, inquisitive and determined computer science professional. I am passionate about Software Development and have won the Software Engineering prize from the University of Adelaide in 2018.
+                      Currently I am working for Time Makers Consulting.</p>
+                    
+                    <div class="social-icons">
+                      <a href="https://www.linkedin.com/in/zheng-xu-107592184/" target="_blank">
+                        <i class="fab fa-linkedin-in"></i>
+                      </a>
+                      <a href="https://github.com/andersonxu" target="_blank">
+                        <i class="fab fa-github"></i>
+                      </a>
+                      <a href="https://www.facebook.com/anderson.xu.771" target="_blank">
+                        <i class="fab fa-facebook-f"></i>
+                      </a>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="slide p-3 p-lg-5" id='exp'>
+                <section class="resume-section">
+                  <div class="w-100">
+                    <h2 class="">Experience</h2>
+                    <hr class="divider dv-left">
+                    <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                      <div class="resume-content">
+                        <h3 class="mb-0">Junior Web Designer</h3>
+                        <div class="subheading mb-3">Time Makers Consulting</div>
+                        <p>Web design</p>
+                      </div>
+                      <div class="resume-date text-md-right">
+                        <span class="text-primary">May 2019 - current</span>
+                      </div>
+                    </div>
+                    <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                      <div class="resume-content">
+                        <h3 class="mb-0">Architecture Design Assistant</h3>
+                        <div class="subheading mb-3">Shanghai Yu Te Shun Real Estate Development Co., Ltd</div>
+                        <ul clss="list-inline">
+                          <li>Interfacing with the corresponding companies.</li>
+                          <li>Design management.</li>
+                          <li>Actual effect control at construction site.</li>
+                          <li>Potential project evaluation and design.</li>
+                        </ul>
+                      </div>
+                      <div class="resume-date text-md-right">
+                        <span class="text-primary">June 2015 - April 2016</span>
+                      </div>
+                    </div>
+                    <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                      <div class="resume-content">
+                        <h3 class="mb-0">Intern designer</h3>
+                        <div class="subheading mb-3">Shanghai Yu Te Shun Real Estate Development Co., Ltd</div>
+                        <ul clss="list-inline">
+                          <li>Architectural design drawing management.</li>
+                          <li>Conference host and record.</li>
+                        </ul>
+                      </div>
+                      <div class="resume-date text-md-right">
+                        <span class="text-primary">September 2014 - January 2015</span>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="slide p-3 p-lg-5" id="education">
+                <section class="resume-section ">
+                  <div class="w-100">
+                    <h2 class="">Education</h2>
+                    <hr class="divider dv-left">
+                    <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                      <div class="resume-content">
+                        <h3 class="mb-0">Navitas Professional</h3>
+                        <div class="subheading mb-3">Certificate IV in Business (Professional Year Program)</div>
+                      </div>
+                      <div class="resume-date text-md-right">
+                        <span class="text-primary">March 2019 - Currently Undertaking</span>
+                      </div>
+                    </div>
+                    <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                      <div class="resume-content">
+                        <h3 class="mb-0">The University of Adelaide</h3>
+                        <div class="subheading mb-3">Master of Computing and Innovation</div>
+                      </div>
+                      <div class="resume-date text-md-right">
+                        <span class="text-primary">February 2017 - December 2018</span>
+                      </div>
+                    </div>
+                    <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                      <div class="resume-content">
+                        <h3 class="mb-0">Australian Institute of Translation and Interpretation</h3>
+                        <div class="subheading mb-3">Advanced Diploma of Translating</div>
+                      </div>
+                      <div class="resume-date text-md-right">
+                        <span class="text-primary">May 2017 - August 2017</span>
+                      </div>
+                    </div>
+                    <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                      <div class="resume-content">
+                        <h3 class="mb-0">Tongji University</h3>
+                        <div class="subheading mb-3">Bachelor of Architecture</div>
+                      </div>
+                      <div class="resume-date text-md-right">
+                        <span class="text-primary">September 2010 - June 2015</span>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="slide  p-3 p-lg-5 d-flex align-items-center" id="skills">
+                <section class="resume-section">
+                  <div class="w-100">
+                    <h2 class="">Skills</h2>
+                    <hr class="divider dv-left">
+                    <div class="subheading mb-3">Programming Languages &amp; Tools</div>
+                    <ul class="list-inline dev-icons">
+                      <li class="list-inline-item">
+                        <i class="fab fa-html5"></i>
+                      </li>
+                      <li class="list-inline-item">
+                        <i class="fab fa-css3-alt"></i>
+                      </li>
+                      <li class="list-inline-item">
+                        <i class="fab fa-js-square"></i>
+                      </li>
+                      <li class="list-inline-item">
+                        <i class="fab fa-python"></i>
+                      </li>
+                      <li class="list-inline-item">
+                        <i class="fab fa-java"></i>
+                      </li>
+                    </ul>
+                    <div class="subheading mb-3">Platform &amp; IDE</div>
+                    <ul class="fa-ul mb-0">
+                      <li>
+                        <i class="fa-li fa fa-check"></i>
+                        <p>Eclipse</p>
+                      </li>
+                      <li>
+                        <i class="fa-li fa fa-check"></i>
+                        <p>Hadoop</p>
+                      </li>
+                      <li>
+                        <i class="fa-li fa fa-check"></i>
+                        <p>GitHub</p>
+                      </li>
+                    </ul>
+                  </div>
+                </section>
+
+              </div>
+              <div class="slide p-3 p-lg-5 d-flex align-items-center" id="awards">
+                <section class="resume-section ">
+                  <div class="w-100">
+                    <h2 class="">Awards &amp; Achievements</h2>
+                    <hr class="divider dv-left">
+                    <ul class="fa-ul mb-0">
+                      <li>
+                        <i class="fa-li fa fa-trophy"></i>
+                        <h4>2018 The Software Engineering Prize</h4>
+                        This prize was established to recognise students who attain the best group project mark for a Software Engineering Project completed in a course.
+                      </li>
+                      <li>
+                        <i class="fa-li fa fa-trophy"></i>
+                        <h4>Master GPA</h4>
+                        6.688/7
+                      </li>
+                      <li>
+                        <i class="fa-li fa fa-trophy"></i>
+                        <h4>Bachelor GPA:</h4>
+                        84.59/100
+                      </li>
+
+                    </ul>
+                  </div>
+                </section>
+              </div>
+            </div>
+
+            <div class="navigation">
+              <label for="r1" class="bar"></label>
+              <label for="r2" class="bar"></label>
+              <label for="r3" class="bar"></label>
+              <label for="r4" class="bar"></label>
+              <label for="r5" class="bar"></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- project Modals -->
+
+  <!-- Modal 1 -->
+  <div class="modal fade" id="projectModal1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="container">
+          <div class="modal-header">
+            <h4 class="modal-title">Development of a Network Security Analytic System</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <a href="imgs/p1-poster.jpg" target="_blank">
+              <img class="img-fluid d-block mx-auto" src="imgs/p1-poster.jpg" alt="">
+            </a>
+            <hr class="divider my-4">
+            <ul class="list-inline">
+              <ul class="list-inline">
+                <li><b>Network security analytics:</b></li>
+                <li>Network security analytics is a combination of information security and big data. </li>
+                <li>The aim of network security analytics is to extract some critical information from network logs for detecting cyber attacks. </li>
+              </ul>
+              <ul class="list-inline">
+                <li><b>Critical information:</b>
+                <li>
+                <li>This critical information include who is behind the attack, how and when the attack was conducted. </li>
+                <li>The analysis of the critical information extracted from network logs helps us detect cyber attack.</li>
+              </ul>
+              <ul class="list-inline">
+                <li><b>Analytic system:</b></li>
+                <li>The aim of this project is to design and implement a network security analytic system that analyse network events for identifying cyber attacks.</li>
+                <li>This system incorporates various big data analytics tools and platforms(eg. hadoop) for achieving high level scalability, availability, reliability, and performance.</li>
+              </ul>
+            </ul>
+            <ul class="list-inline">
+              <li>Date: 2018</li>
+              <li>Client: University</li>
+              <li>Category: Machine Learning</li>
+            </ul>
+            <div class="modal-footer">
+              <button type="button" data-dismiss="modal" class="btn btn-warning"><i class="fas fa-times"></i>
+                Close Project</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal 2 -->
+  <div class="modal fade" id="projectModal2">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="container">
+          <div class="modal-header">
+            <h4 class="modal-title">Rescuer robot</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <img class="img-fluid d-block mx-auto" src="imgs/p2-2.jpg" alt="">
+            <hr class="divider my-4">
+            <center>
+              <video width="80%" controls>
+                <source src="imgs/p2-v.mp4" type="video/mp4">
+                <object data="movie.mp4" width="80%">
+                </object>
+              </video></center>
+            <hr class="divider my-4">
+            <ul class="list-inline">
+              <li>Highly uncertain requirements</li>
+              <li>Different background team members in a group of 7</li>
+              <li>Software process and documentation management with GitHub repository and issue tracking system</li>
+              <li>Agile working model with weekly meetings with client</li>
+
+            </ul>
+            <ul class="list-inline">
+              <li>Date: 2018</li>
+              <li>Client: University</li>
+              <li>Category: Software engineering</li>
+            </ul>
+            <div class="modal-footer">
+              <button type="button" data-dismiss="modal" class="btn btn-warning"><i class="fas fa-times"></i>
+                Close Project</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal 3 -->
+
+  <!-- Modal 4 -->
+
 </body>
+
 </html>

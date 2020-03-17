@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="jquery.csv.js"></script>
+  <style media="screen">
+    * {
+      margin: 0px;
+      padding: 0px;
+      font-size: 1rem;
+      font-family: sans-serif;
+    }
+
+    html {}
+
+    .win {
+      text-align: center;
+      margin: 0 auto;
+      padding: 0;
+      clear: both;
+    }
+
+    #left,
+    #right {
+      margin: 0;
+      margin-left: 100px;
+      margin-right: 100px;
+      padding: 0;
+      display: inline-block;
+      vertical-align: top;
+      _display: inline;
+      *display: inline;
+      text-align: left;
+    }
+
+    #right {
+      margin-top: 54px;
+      margin-left: 100px;
+      margin-right: 100px;
+    }
+
+    .button,
+    #btnDelete,
+    #generate {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      width: 100px;
+      padding: 0.5rem 0.5rem;
+      font-size: 1rem;
+      outline: none;
+      background: linear-gradient(to left, #fc6767, #ec008c) !important;
+      border: none;
+      color: #ffffff !important;
+      border-radius: 0.5rem;
+    }
+
+    .button:hover,
+    #btnDelete:hover,
+    #generate:hover {
+      background: linear-gradient(to left, #fc67fc, #fc008c) !important;
+    }
+
+    .button {
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+
+
+    table {
+      margin: auto;
+      width: 580px;
+      border-collapse: collapse;
+      padding: 3px;
+      box-shadow: 0 1px 1.5rem rgba(0, 0, 0, .1);
+    }
+
+    th,
+    td {
+      border: none;
+      text-align: left;
+      padding: 3px;
+    }
+
+    th {
+      background-color: #ec008c;
+      color: #ffffff;
+    }
+
+    table tr:nth-child(odd) {
+      background: #F4F4F4;
+    }
+
+    tr:hover {
+      background-color: #eeeeee;
+    }
+
+    tr:nth-child(odd):hover {
+      background-color: #e0e0e0;
+    }
+
+    #select {
+      background: inherit;
+      border: 0px;
+    }
+
+    #numTeamDiv,
+    #numAttendDiv {
+      align="center";
+      margin: auto;
+      margin-bottom: 10px;
+      width: fit-content;
+      max-width: 580px;
+      position: relative;
+      display: flex;
+      align-items: baseline;
+      padding: 5px;
+      border: 1px solid #ec008c;
+      border-radius: 5px;
+      box-shadow: 0 1px 0.5rem rgba(0, 0, 0, 0.1);
+    }
+
+    div.mix {
+      text-align: left;
+      margin: auto;
+      width: 575px;
+      border: 1px solid #ec008c;
+      border-radius: 5px;
+      padding: 3px;
+      box-shadow: 0 1px 0.5rem rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+    }
+
+    #numTeamInput {
+      margin-left: 5px;
+      border: none;
+      outline: none;
+      font-size: 0.8rem;
+      color: #fc6767;
+    }
+
+    #btnDelete,
+    #generate {
+      width: 100px;
+      marigin: 0px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      background: #F3F3F3;
+    }
+
+    div.team {
+      margin: auto;
+      margin-bottom: 10px;
+      width: 600px;
+      background: #;
+      height 30rem;
+      background: linear-gradient(to left, #fc6767, #ec008c);
+      color: #ffffff;
+      padding: 3px;
+      box-shadow: 0 1px 0.5rem rgba(0, 0, 0, 0.1);
+    }
+
+    div.person {
+      background-color: #fff;
+      border: 1px solid #ec008c;
+      color: #000000;
+      padding: 3px;
+      display: flex;
+    }
+
+    div.person:hover {
+      background-color: #eee;
+    }
+
+    .personF {
+      flex: 1;
+    }
+
+    .buttons {
+      position: relative;
+      text-align: center;
+      border: none;
+    }
+
+    .alert {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 150px;
+      max-width: 600px;
+      transform: translate(-50%, -50%);
+      z-index: 99999;
+      text-align: center;
+      font-size: 1rem;
+      padding: 5px;
+      border-radius: 1rem;
+    }
+
+    .alert-warning {
+      color: #ffffff;
+      background-color: #ec008c;
+      border-color: #faebcc;
+    }
+
+    .bye {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 99999;
+      text-align: center;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <input type="file" id="files" style="display: none" onchange="fileImport();">
+
+  </div>
+  <div class="win">
+    <div class="left" id="left">
+      <div class="buttons">
+        <input type="button" class="button" id="fileImport" value="Read">
+        <input type="button" class="button" id="add" value="Add">
+        <input type="button" class="button" id="save" value="Save">
+      </div>
+      <div class="sheet" id="sheet">
+        <div class="nameTable" id="nameTable"></div>
+        <div class="nameSheet" id="nameSheet"></div>
+      </div>
+    </div>
+    <div class="right" id="right" style="display:none;">
+      <div class="resultSheet" id="resultSheet"></div>
+    </div>
+
+  </div>
+
+  <script>
+    srcdiv = null;
+    b = document.body;
+    data = new Array();
+    defaultPerson = {
+      Name: "Student",
+      Gender: "",
+      Profession: "",
+      Flag: ""
+    };
+    var table = document.createElement('table');
+    table.id = "tb";
+    var tbody = document.createElement("tbody");
+    tbody.id = "tbody";
+    var tr = document.createElement('tr');
+    tr.id = -1;
+    tr.className = "title";
+    var th = document.createElement('th');
+    tr.appendChild(th);
+    for (var key in defaultPerson) {
+      var th = document.createElement('th');
+      if (key != "name" && key != "Name") {
+        // th.contentEditable = "true";
+        // th.onkeydown = function(e) {
+        //   var ev = (typeof event != 'undefined') ? window.event : e;
+        //   if (ev.keyCode == 13 || ev.keyCode == 188) {
+        //     return false;
+        //   }
+        // }
+        // th.onkeyup = function() {
+        //   var new_key = this.innerHTML;
+        //   var old_key = this.className;
+        //   if (defaultPerson.hasOwnProperty(new_key) && new_key != old_key) {
+        //     $('<div>').appendTo('body').addClass('alert alert-warning').html("Same feature name!").show().delay(1500).fadeOut(1000);
+        //     this.innerHTML = old_key;
+        //   } else {
+        //     for (var i = 0, len = data.length; i < len; i++) {
+        //       if (old_key !== new_key) {
+        //         Object.defineProperty(data[i], new_key,
+        //           Object.getOwnPropertyDescriptor(data[i], old_key));
+        //         delete data[i][old_key];
+        //       }
+        //     }
+        //     Object.defineProperty(defaultPerson, new_key,
+        //       Object.getOwnPropertyDescriptor(defaultPerson, old_key));
+        //     delete defaultPerson[old_key];
+        //     var mixL = document.getElementById(old_key + "Lable");
+        //     mixL.innerHTML = new_key;
+        //     mixL.id = new_key + "Lable";
+        //     this.className = this.innerHTML;
+        //   }
+        // }
+      }
+      th.innerHTML = key; //设置显示的数据，可以是标签．
+      th.className = key; //设置div的属性，如：class，title，id 等等
+      tr.appendChild(th);
+    }
+    tbody.appendChild(tr);
+    table.appendChild(tbody);
+    nameTable.insertBefore(table, nameTable.lastChild);
+
+    $("#fileImport").click(function() {
+
+      var selectedFile = document.getElementById('files');
+      if (selectedFile.value) {
+        selectedFile.value = "";
+      }
+      $("#files").click();
+    })
+
+    function fileImport() {
+      //获取读取我文件的File对象
+      var nameTable = document.getElementById("nameTable");
+      while (nameTable.hasChildNodes()) {
+        nameTable.removeChild(nameTable.firstChild);
+      }
+      var resultSheet = document.getElementById("resultSheet");
+      while (resultSheet.hasChildNodes()) {
+        resultSheet.removeChild(resultSheet.firstChild);
+      }
+      document.getElementById("right").style.display = "none";
+      var selectedFile = document.getElementById('files').files[0];
+      var name = selectedFile.name; //读取选中文件的文件名
+      var size = selectedFile.size; //读取选中文件的大小
+      console.log("文件名:" + name + "大小:" + size);
+      var reader = new FileReader(); //这是核心,读取操作就是由它完成.
+      reader.readAsText(selectedFile); //读取文件的内容,也可以读取文件的URL
+      reader.onload = function() {
+        //当读取完成后回调这个函数,然后此时文件的内容存储到了result中,直接操作即可
+        try {
+          data = $.csv.toObjects(this.result);
+        } catch (err) {
+          return;
+        }
+        var table = document.createElement('table');
+        table.id = "tb";
+        var tbody = document.createElement("tbody");
+        tbody.id = "tbody";
+        var tr = document.createElement('tr');
+        tr.id = -1;
+        tr.className = "title";
+        if (data.length > 0) {
+          var th = document.createElement('th');
+          tr.appendChild(th);
+          for (var key in data[0]) {
+            var th = document.createElement('th');
+            // if (key != "name" && key != "Name") {
+            // th.contentEditable = "true";
+            // th.onkeydown = function(e) {
+            //   var ev = (typeof event != 'undefined') ? window.event : e;
+            //   if (ev.keyCode == 13 || ev.keyCode == 188) {
+            //     return false;
+            //   }
+            // }
+            // th.onkeyup = function() {
+            //   var new_key = this.innerHTML;
+            //   var old_key = this.className;
+            //   if (data[0].hasOwnProperty(new_key) && new_key != old_key) {
+            //     alert("Same feature name!");
+            //     this.innerHTML = old_key;
+            //   } else {
+            //
+            //     for (var i = 0, len = data.length; i < len; i++) {
+            //       if (old_key !== new_key) {
+            //         Object.defineProperty(data[i], new_key,
+            //           Object.getOwnPropertyDescriptor(data[i], old_key));
+            //         delete data[i][old_key];
+            //       }
+            //     }
+            //     var mixL = document.getElementById(old_key + "Lable");
+            //     mixL.innerHTML = new_key;
+            //     mixL.id = new_key + "Lable";
+            //     this.className = this.innerHTML;
+            //   }
+            // }
+            // }
+            th.innerHTML = key; //设置显示的数据，可以是标签．
+            th.className = key; //设置div的属性，如：class，title，id 等等
+            tr.appendChild(th);
+          }
+        } else {
+          return;
+        }
+        tbody.appendChild(tr);
+
+        for (var i = 0, len = data.length; i < len; i++) {
+          var personTr = document.createElement('tr');
+          personTr.id = i;
+          personTr.className = "person";
+          var td = document.createElement('td');
+          var checkBox = document.createElement('input');
+          checkBox.type = "checkbox";
+          checkBox.name = "del";
+          checkBox.onclick = function() {
+            if (this.checked == true) {
+              this.parentNode.parentNode.style.backgroundColor = "#aaaaaa";
+            } else {
+              this.parentNode.parentNode.style.backgroundColor = "#fff";
+            }
+          }
+          td.appendChild(checkBox);
+          personTr.appendChild(td);
+          for (var key in data[i]) {
+            var td = document.createElement('td');
+            td.className = key;
+            if (key == "Flag") {
+              td.contentEditable = "false";
+              var select = document.createElement("select");
+              select.id = "select";
+              for (var ix = 0; ix < 6; ix++) {
+                var option = document.createElement("option");
+                option.value = ix;
+                if (ix == 0) {
+                  option.value = "";
+                  option.innerHTML = "";
+                } else {
+                  option.value = ix;
+                  option.innerHTML = ix;
+                }
+                select.appendChild(option);
+              }
+              select.value = data[i][key];
+              select.onchange = function() {
+                data[this.parentNode.parentNode.id]["Flag"] = this.value;
+              }
+              td.appendChild(select);
+            } else {
+              td.contentEditable = "true";
+              td.innerHTML = data[i][key];
+              td.onkeyup = function() {
+                data[this.parentNode.id][this.className] = this.innerHTML;
+              }
+            }
+            personTr.appendChild(td);
+          }
+          tbody.appendChild(personTr);
+        }
+        table.appendChild(tbody);
+        nameTable.insertBefore(table, nameTable.lastChild);
+        document.getElementById("numAttendDiv").innerHTML = "The number of people attended today is " + data.length;
+        $('#nameTable').fadeIn(500);
+      }
+    }
+
+    var obt = document.createElement('input');
+    obt.type = "button";
+    obt.id = "btnDelete";
+    obt.value = "Absent";
+    nameSheet.appendChild(obt);
+    obt.onclick = function() {
+      var otb = document.getElementById("tb");
+      var tbody = otb.getElementsByTagName("tbody")[0];
+      var cks = document.getElementsByName("del");
+      var numDel = 0;
+      for (var index = 0; index < cks.length; index++) {
+        if (cks[index].checked == true) {
+          tbody.removeChild(cks[index].parentNode.parentNode);
+          data.splice(index, 1);
+          index--;
+          numDel++;
+        } else {
+          cks[index].parentNode.parentNode.id -= numDel;
+        }
+      }
+      var abs = document.getElementById("numAttendDiv");
+      abs.innerHTML = "The number of people attended today is " + data.length;
+      if (numDel > 0) {
+        $('<div>').appendTo('body').addClass('bye').html("<img src='bye.png' alt='bye'>").fadeIn(200).delay(200).fadeOut(1500);
+      }
+    }
+    var numAttend = document.createElement('div');
+    numAttend.id = "numAttendDiv";
+    numAttend.innerHTML = "The number of people attended today is " + data.length;
+    nameSheet.appendChild(numAttend);
+
+    var numTeamDiv = document.createElement('div');
+    numTeamDiv.id = "numTeamDiv";
+    numTeamDiv.innerHTML = "The number of teams:";
+    var numTeamInput = document.createElement('input');
+    numTeamInput.id = "numTeamInput";
+    numTeamInput.type = "text";
+    numTeamInput.maxLength = "2";
+    numTeamInput.onkeyup = function() {
+      this.value = this.value.replace(/\D/g, '');
+      if (this.value > data.length) {
+        $('<div>').appendTo('body').addClass('alert alert-warning').html("Too many teams!").show().delay(1500).fadeOut(1000);
+        this.value = data.length;
+      }
+    }
+    numTeamInput.placeholder = "Please input the number.";
+    numTeamDiv.appendChild(numTeamInput);
+    nameSheet.appendChild(numTeamDiv);
+
+    var mixDiv = document.createElement('div');
+    mixDiv.className = "mix";
+    mixDiv.innerHTML = "Please select features you want to mix up: (in an importance ascending order)";
+
+    for (var key in defaultPerson) {
+      if (key != "name" && key != "Name") {
+        var mixDivRow = document.createElement('div');
+        mixDivRow.width = "100 px";
+        var mixCheckBox = document.createElement('input');
+        mixCheckBox.type = "checkbox";
+        mixCheckBox.value = key;
+        mixCheckBox.name = "mix";
+        mixDivRow.appendChild(mixCheckBox);
+        var mixL = document.createElement('lable');
+        mixL.id = key + "Lable";
+        mixL.innerHTML = key;
+        mixDivRow.appendChild(mixL);
+        mixDiv.appendChild(mixDivRow);
+
+        mixDivRow.ondrop = function drop(ev) {
+          ev.preventDefault();
+          if (srcdiv != this) {
+            srcdiv.innerHTML = this.innerHTML;
+            this.innerHTML = ev.dataTransfer.getData("text/html");
+          }
+        };
+        mixDivRow.ondragover = function allowDrop(ev) {
+          ev.preventDefault();
+        };
+        mixDivRow.draggable = "true";
+        mixDivRow.ondragstart = function drag(ev) {
+          srcdiv = this;
+          ev.dataTransfer.setData("text/html", this.innerHTML);
+        };
+      }
+    }
+    nameSheet.appendChild(mixDiv);
+    $('#nameSheet').fadeIn(500);
+
+    var generate = document.createElement('input');
+    generate.type = "button";
+    generate.id = "generate";
+    generate.value = "Generate";
+    nameSheet.appendChild(generate);
+    generate.onclick = function() {
+      if (data.length > 0) {
+        var resultSheet = document.getElementById("resultSheet");
+        while (resultSheet.hasChildNodes()) {
+          resultSheet.removeChild(resultSheet.firstChild);
+        }
+        resultSheet.style.display = "none";
+        var numTeam = document.getElementById("numTeamInput").value;
+        var numPeople = data.length;
+        if (numTeam > numPeople) {
+          $('<div>').appendTo('body').addClass('alert alert-warning').html("Too many teams!").show().delay(1500).fadeOut(1000);
+          document.getElementById("numTeamInput").value = numPeople;
+        } else if (numTeam > 0) {
+          var cks = document.getElementsByName("mix");
+          var numDel = 0;
+          var mixF = new Array();
+          var dataCopy = data.slice();
+          var dataRan = new Array();
+          var dataSort = new Array();
+          var numChecked = 0;
+          while (numPeople > 0) {
+            var randomIndex = Math.floor(Math.random() * numPeople);
+            dataRan.push(dataCopy[randomIndex]);
+            dataCopy.splice(randomIndex, 1);
+            numPeople--;
+          }
+          numPeople = data.length;
+
+          for (var index = 0; index < cks.length; index++) {
+            if (cks[index].checked == true) {
+              var checkedF = cks[index].value;
+              mixF.push(checkedF);
+              var featureObj = new Object();
+              for (var i = 0, len = data.length; i < len; i++) {
+                var featureValue = data[i][checkedF];
+                if (!featureObj.hasOwnProperty(featureValue)) {
+                  featureObj[featureValue] = "0";
+                }
+              }
+              if (numChecked > 0) {
+                dataRan = dataSort.slice();
+                dataSort = new Array();
+              }
+              for (var featureKey in featureObj) {
+                var keyObj = new Array();
+                for (var i = 0; i < numPeople; i++) {
+                  if (dataRan[i][checkedF] == featureKey) {
+                    keyObj.push(dataRan[i]);
+                  }
+                }
+                dataSort = dataSort.concat(keyObj);
+              }
+              numChecked++;
+            }
+          }
+
+          dataCopy = data.slice();
+          numPeople = data.length;
+          var numInATeam = Math.ceil(numPeople / numTeam);
+          for (var i = 0; i < numTeam; i++) { //一维长度为i,i为变量，可以根据实际情况改变
+            var team = document.createElement('div');
+            team.className = "team";
+            team.innerHTML = "<strong>Team " + (i + 1) + "</strong>";
+            team.id = i + "Team";
+            resultSheet.appendChild(team);
+          }
+          for (var j = 0; j < numInATeam; j++) {
+            for (var i = 0; i < numTeam; i++) {
+              var person = document.createElement('div');
+              person.className = "person";
+              if (mixF.length == 0) {
+                var randomIndex = Math.floor(Math.random() * numPeople);
+                for (var key in data[randomIndex]) {
+                  var personF = document.createElement('p');
+                  personF.className = "personF";
+                  personF.innerHTML = dataCopy[randomIndex][key];
+                  person.appendChild(personF);
+                }
+                dataCopy.splice(randomIndex, 1);
+              } else if (mixF.length > 0) {
+                dataCopy = dataSort.slice();
+                index = data.length - numPeople;
+                for (var key in data[index]) {
+                  var personF = document.createElement('p');
+                  personF.className = "personF";
+                  personF.innerHTML = dataCopy[index][key];
+                  person.appendChild(personF);
+                }
+              }
+              person.ondrop = function drop(ev) {
+                ev.preventDefault();
+                if (srcdiv != this) {
+                  srcdiv.innerHTML = this.innerHTML;
+                  this.innerHTML = ev.dataTransfer.getData("text/html");
+                }
+              };
+              person.ondragover = function allowDrop(ev) {
+                ev.preventDefault();
+              };
+              person.draggable = "true";
+              person.ondragstart = function drag(ev) {
+                srcdiv = this;
+                ev.dataTransfer.setData("text/html", this.innerHTML);
+              };
+
+              var team = document.getElementById(i + "Team");
+              team.appendChild(person);
+              numPeople--;
+              if (numPeople <= 0) {
+                break;
+              }
+            }
+          }
+        }
+        document.getElementById("right").style.display = "inline-block";
+        $('#resultSheet').fadeIn(500);
+      }
+
+    }
+    var add = document.getElementById("add");
+    add.onclick = function() {
+      var personTr = document.createElement('tr');
+      personTr.id = data.length;
+      personTr.className = "person";
+      var td = document.createElement('td');
+      var checkBox = document.createElement('input');
+      checkBox.type = "checkbox";
+      checkBox.name = "del";
+      checkBox.onclick = function() {
+        if (this.checked == true) {
+          this.parentNode.parentNode.style.backgroundColor = "#aaaaaa";
+        } else {
+          this.parentNode.parentNode.style.backgroundColor = "#fff";
+        }
+      }
+      td.appendChild(checkBox);
+      personTr.appendChild(td);
+      var newPerson = new Object();
+      for (var key in defaultPerson) {
+        var td = document.createElement('td');
+        td.contentEditable = "true";
+        if (key == "Name" || key == "name") {
+          td.innerHTML = "New student"; //设置显示的数据，可以是标签．
+          newPerson[key] = "New student";
+        } else if (key == "Flag") {
+          td.contentEditable = "false";
+          var select = document.createElement("select");
+          select.id = "select";
+          for (var i = 0; i < 6; i++) {
+            var option = document.createElement("option");
+            if (i == 0) {
+              option.value = "";
+              option.innerHTML = "";
+            } else {
+              option.value = i;
+              option.innerHTML = i;
+            }
+            select.appendChild(option);
+          }
+          select.value = "";
+          newPerson[key] = "";
+          select.onchange = function() {
+            data[this.parentNode.parentNode.id]["Flag"] = this.value;
+          }
+          td.appendChild(select);
+        } else {
+          td.innerHTML = " "; //设置显示的数据，可以是标签．
+          newPerson[key] = " ";
+        }
+        td.className = key; //设置div的属性，如：class，title，id 等等
+        td.onkeyup = function() {
+          data[this.parentNode.id][this.className] = this.innerHTML;
+        }
+        personTr.appendChild(td);
+      }
+      data.push(newPerson);
+      document.getElementById("numAttendDiv").innerHTML = "The number of people attended today is " + data.length;
+      document.getElementById("tbody").appendChild(personTr);
+    }
+    var save = document.getElementById("save");
+    save.onclick = function() {
+      if (data.length > 0) {
+        var result = $.csv.fromObjects(data);
+        var aTag = document.createElement('a');
+        var blob = new Blob([result]);
+        aTag.download = "names.csv";
+        aTag.href = URL.createObjectURL(blob);
+        aTag.type = "csv";
+        aTag.click();
+        URL.revokeObjectURL(blob);
+      }
+    }
+  </script>
+</body>
+
+</html>
